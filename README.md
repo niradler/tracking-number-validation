@@ -22,6 +22,7 @@ Nodejs:
 Javascript:
 - npm i tracking-number-validation --save
 - <script src="node_modules/tracking-number-validation/dist/main.js"></script>
+- var courier = TNV.getCourier(tr)
 
 ### Demo
 
