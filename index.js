@@ -1,30 +1,20 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _helpres = require('./helpres');
 
-var helpers = require('./helpres');
+var _helpres2 = _interopRequireDefault(_helpres);
 
-var TNValidator = function () {
-    function TNValidator() {
-        _classCallCheck(this, TNValidator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    getCourier: function getCourier(tr) {
+        return _helpres2.default.get_courier_by_tr(tr);
+    },
+    isValid: function isValid(tr, type) {
+        return _helpres2.default.tr_is_valid(tr, type);
     }
-
-    _createClass(TNValidator, [{
-        key: 'getCourier',
-        value: function getCourier(tr) {
-            return helpers.get_courier_by_tr(tr);
-        }
-    }, {
-        key: 'isValid',
-        value: function isValid(tr, type) {
-            return helpers.tr_is_valid(tr, type);
-        }
-    }]);
-
-    return TNValidator;
-}();
-
-var instance = new TNValidator();
-exports = instance;
+};

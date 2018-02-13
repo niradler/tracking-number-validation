@@ -1,5 +1,6 @@
-const config = require('../config')
-const courier_info = config.courier_info;
+import config from '../config'
+
+const courier_info =  config.courier_info;
 
 const get_courier_by_tr = (tr) => {
     for (const key in courier_info) {
@@ -20,7 +21,7 @@ const tr_is_valid = (tr, type) => {
     }
     return false;
 }
-exports = {
+export default {
     get_courier_by_tr,
     tr_is_valid
 }
