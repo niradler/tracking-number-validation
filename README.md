@@ -1,6 +1,6 @@
 ## tracking-number-validation
 
-``
+
 A simple way to validate tracking number.
 couriers:
 - ups
@@ -8,7 +8,7 @@ couriers:
 - dhl
 - fedex
 - ontrac
-``
+
 
 ## Usage
 - npm i tracking-number-validation --save
