@@ -1,0 +1,33 @@
+{
+  "name": "tracking-number-validation",
+  "version": "1.0.0",
+  "description": "tracking-number-validation",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel --presets env src -d ./ --ignore src/index.test.js",
+    "dev": "babel --presets env src -d ./ --watch --ignore src/index.test.js",
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niradler/tracking-number-validation"
+  },
+  "keywords": [
+    "npm",
+    "package",
+    "template"
+  ],
+  "author": "Nir Adler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/niradler/tracking-number-validation/issues"
+  },
+  "homepage": "https://github.com/niradler/tracking-number-validation",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "jest": "^20.0.3"
+  }
+}
