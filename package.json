@@ -1,7 +1,7 @@
 {
   "name": "tracking-number-validation",
   "version": "1.0.1",
-  "description": "tracking-number-validation",
+  "description": "A simple way to validate tracking number for the following couriers.",
   "main": "index.js",
   "scripts": {
     "build": "babel --presets env src -d ./ --ignore src/index.test.js",

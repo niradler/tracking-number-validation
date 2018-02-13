@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tracking Number Validation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="notification">
+            A simple way to validate tracking number for the following couriers.
+        </div>
+        <div class="columns">
+            <div class="column is-4">
+                <input type="text" id="trInput" class="input" placeholder="Tracking Number" onchange="validate()">
+                <button class="button " onclick="validate()">Validate</button>
+            </div>
+            <div class="column is-6">
+                <div class="notification">
+                   <div>
+                       <div>validate: <span id="validate">false</span></div>
+                       <div>courier: <span id="courier"> - </span></div>
+                   </div>
+                </div>
+              </div>
+        </div>
+       
+      
+    </div>
+    <script src="dist/main.js"></script>
+    <script>
+    function validate(){
+        var tr = document.querySelector('#trInput').value
+        var courier = TNV.getCourier(tr)
+        document.querySelector('#validate').innerHTML = courier !==null ? 'true' : 'false';
+        document.querySelector('#courier').innerHTML = courier !==null ? courier : ' - ';
+    }
+    </script>
+</body>
+</html>
