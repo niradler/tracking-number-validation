@@ -1,8 +1,9 @@
 ## tracking-number-validation
 
 
-A simple way to validate tracking number.
-couriers:
+A simple way to validate tracking number for the following couriers.
+
+supported couriers:
 - ups
 - usps
 - dhl
