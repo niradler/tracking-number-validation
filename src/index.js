@@ -1,6 +1,6 @@
 import helpers from './helpres'
 
-export default {
+module.exports = {
     getCourier:(tr) =>{
         return helpers.get_courier_by_tr(tr);
     },

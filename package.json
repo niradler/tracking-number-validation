@@ -1,6 +1,6 @@
 {
   "name": "tracking-number-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "tracking-number-validation",
   "main": "index.js",
   "scripts": {
