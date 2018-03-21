@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel --presets env src -d ./ --ignore src/index.test.js",
     "dev": "babel --presets env src -d ./ --watch --ignore src/index.test.js",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
