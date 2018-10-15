@@ -15,7 +15,13 @@
   "keywords": [
     "npm",
     "package",
-    "template"
+    "tracking",
+    "number",
+    "dhl",
+    "fedex",
+    "usps",
+    "ups",
+    "validation",
   ],
   "author": "Nir Adler",
   "license": "MIT",
