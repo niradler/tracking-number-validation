@@ -21,7 +21,7 @@
     "fedex",
     "usps",
     "ups",
-    "validation",
+    "validation"
   ],
   "author": "Nir Adler",
   "license": "MIT",
