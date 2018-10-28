@@ -3,6 +3,7 @@
 A simple way to validate tracking number for the following couriers.
 
 supported couriers:
+
 - ups
 - usps
 - dhl
@@ -13,12 +14,14 @@ supported couriers:
 ## Usage
 
 Nodejs:
+
 - npm i tracking-number-validation --save
 - const tnv = require('tracking-number-validation')
 - tnv.getCourier('1Z2869Y60397722027') -> return courier like ups
 - tnv.isValid('1Z2869Y60397722027','fedex') -> return true/false
 
 Javascript:
+
 - npm i tracking-number-validation --save
 - include main.js in your index.html
 ```html
@@ -31,6 +34,7 @@ Javascript:
 [link](https://niradler.github.io/tracking-number-validation/)
 
 ## Updates
+
 v2 is coming soon with api changes.
 checkout out v1 and v2 branches.
 
@@ -41,7 +45,7 @@ v2 api:
 - isCourier: (tracking,courier) -> Boolean: true/false
 - getTrackingUrl: (tracking,courier) -> String: url for tracking number.
 
-tested against:
+## Tested against
 
 UPS:
 
