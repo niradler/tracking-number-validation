@@ -36,7 +36,7 @@ Javascript:
 ## Updates
 
 v2 is coming soon with api changes.
-checkout out v1 and v2 branches.
+checkout v1 and v2 branches.
 
 v2 api:
 
