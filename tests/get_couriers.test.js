@@ -8,3 +8,12 @@ test("getCourier", () => {
     expect(courier[0]).toBe(tracking_numbers[key]);
   }
 });
+
+test("getCourierOne", () => {
+  for (const key in tracking_numbers) {
+    const courier = tnv.getCourierOne(key);
+
+    expect(courier).toBe(tracking_numbers[key]);
+  }
+});
+

@@ -54,5 +54,20 @@ module.exports = {
   "125 12345678": "dhl",
   "12512345678": "dhl",
   SEA1234567: "dhl",
-  LAX1234567: "dhl"
+  LAX1234567: "dhl",
+
+  //https://stackoverflow.com/questions/619977/regular-expression-patterns-for-tracking-numbers
+  // 'RE360192014US':'usps',
+  // '70160910000108310009':'usps',
+  // 'EL595811950US':'usps',
+  // '9374889692090270407075':'usps',
+  // '23153630000057728970':'usps',
+
+  // '810132562702':'fedex',
+  // '795223646324':'fedex',
+  // '785037759224':'fedex',
+
+  // 'K2479825491':'ups',
+  // 'J4603636537':'ups',
+  // '1Z87585E4391018698':'ups',
 };
