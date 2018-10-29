@@ -9,6 +9,16 @@ supported couriers:
 - fedex
 - ontrac
 
+## Updates
+v2 api changes.
+checkout out v1 and v2 branches.
+
+v2 api:
+
+- getCourier(tracking) -> Array: [courier] //due to the similarity some times there is a match for more then 1 courier
+- getCourierOne: (tracking,courier) -> String: courier //not safe
+- isCourier: (tracking,courier) -> Boolean: true/false
+- getTrackingUrl: (tracking,courier) -> String: url for tracking number.
 
 ## Usage
 
@@ -30,18 +40,7 @@ Javascript:
 
 [link](https://niradler.github.io/tracking-number-validation/)
 
-## Updates
-v2 is coming soon with api changes.
-checkout out v1 and v2 branches.
-
-v2 api:
-
-- getCourier(tracking) -> Array: [courier] //due to the similarity some times there is a match for more then 1 courier
-- getCourierOne: (tracking,courier) -> String: courier //not safe
-- isCourier: (tracking,courier) -> Boolean: true/false
-- getTrackingUrl: (tracking,courier) -> String: url for tracking number.
-
-tested against:
+### Tested Against
 
 UPS:
 
