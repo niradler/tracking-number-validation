@@ -23,7 +23,7 @@
                    <div>
                        <div>validate: <span id="validate">false</span></div>
                        <div>courier: <span id="courier"> - </span></div>
-                       <div>url: <span id="url"> - </span></div>
+                       <div>url: <a id="url" > - </a></div>
                    </div>
                 </div>
               </div>
@@ -40,6 +40,7 @@
         document.querySelector('#validate').innerHTML = courier !==null ? 'true' : 'false';
         document.querySelector('#courier').innerHTML = courier !==null ? courier.join() : ' - ';
         document.querySelector('#url').innerHTML = url !==null ? url : ' - ';
+        document.getElementById("url").href = url;
         
     }
     </script>
