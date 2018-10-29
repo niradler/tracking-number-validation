@@ -23,6 +23,7 @@
                    <div>
                        <div>validate: <span id="validate">false</span></div>
                        <div>courier: <span id="courier"> - </span></div>
+                       <div>url: <span id="url"> - </span></div>
                    </div>
                 </div>
               </div>
@@ -34,9 +35,12 @@
     <script>
     function validate(){
         var tr = document.querySelector('#trInput').value
-        var courier = TNV.getCourier(tr)
+        var courier = TNV.getCourier(tr);
+        var url = TNV.getTrackingUrl(tr);
         document.querySelector('#validate').innerHTML = courier !==null ? 'true' : 'false';
-        document.querySelector('#courier').innerHTML = courier !==null ? courier : ' - ';
+        document.querySelector('#courier').innerHTML = courier !==null ? courier.join() : ' - ';
+        document.querySelector('#courier').innerHTML = url !==null ? url : ' - ';
+        
     }
     </script>
 </body>
