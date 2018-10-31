@@ -34,7 +34,7 @@ Nodejs:
 - tnv.getCourier('1Z2869Y60397722027') -> return courier like ups
 - tnv.isValid('1Z2869Y60397722027','fedex') -> return true/false
 
-Javascript/NodeJs:
+Javascript:
 
 - npm i tracking-number-validation --save
 - include main.js in your index.html
