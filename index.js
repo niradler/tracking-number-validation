@@ -6,7 +6,7 @@ var courier_info = {
   },
   ups: {
     patterns: [new RegExp(/\b(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|T\d{3} ?\d{4} ?\d{3})\b/i)],
-    tracking_url: "http://wwwapps.ups.com/WebTracking/processInputRequest?TypeOfInquiryNumber=T&InquiryNumber1="
+    tracking_url: "https://www.ups.com/mobile/track?trackingNumber="
   },
   usps: {
     patterns: [new RegExp(/\b((420 ?\d{5} ?)?(91|92|93|94|95|01|03|04|70|23|13)\d{2} ?\d{4} ?\d{4} ?\d{4} ?\d{4}( ?\d{2,6})?)\b/i), new RegExp(/\b((M|P[A-Z]?|D[C-Z]|LK|E[A-C]|V[A-Z]|R[A-Z]|CP|CJ|LC|LJ) ?\d{3} ?\d{3} ?\d{3} ?[A-Z]?[A-Z]?)\b/i), new RegExp(/\b(82 ?\d{3} ?\d{3} ?\d{2})\b/i)],
@@ -21,7 +21,7 @@ var courier_info = {
     tracking_url: "http://www.dhl.com/content/g0/en/express/tracking.shtml?brand=DHL&AWB="
   },
   fedex: {
-    patterns: [new RegExp(/\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3})?)\b/i)],
+    patterns: [new RegExp(/\b([0-9]{12}|100\d{31}|\d{15}|\d{18}|96\d{20}|96\d{32})\b/i)],
     tracking_url: "http://www.fedex.com/Tracking?language=english&cntry_code=us&tracknumbers="
   }
 };
