@@ -1,6 +1,6 @@
 {
   "name": "tracking-number-validation",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A simple way to validate tracking number for the following couriers.",
   "main": "index.js",
   "scripts": {

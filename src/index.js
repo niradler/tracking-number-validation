@@ -2,7 +2,7 @@ const courier_info = {
   ups: {
     patterns: [new RegExp(/\b(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|T\d{3} ?\d{4} ?\d{3})\b/i)],
     tracking_url: "http://wwwapps.ups.com/WebTracking/processInputRequest?TypeOfInquiryNumber=T&Inq" +
-        "uiryNumber1="
+      "uiryNumber1="
   },
   usps: {
     patterns: [
@@ -20,7 +20,7 @@ const courier_info = {
   },
 
   fedex: {
-    patterns: [new RegExp(/\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3})?)\b/i)],
+    patterns: [new RegExp(/\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3}|\d{15})?)\b/i)],
     tracking_url: "http://www.fedex.com/Tracking?language=english&cntry_code=us&tracknumbers="
   }
 };
