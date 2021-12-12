@@ -38,9 +38,11 @@ Javascript:
 
 - npm i tracking-number-validation --save
 - include main.js in your index.html
+
 ```html
 <script src="node_modules/tracking-number-validation/dist/main.js"></script>
 ```
+
 - const courier = TNV.getCourier(tr)
 
 ### Demo
