@@ -3,13 +3,8 @@ const courier_info = {
     patterns: [new RegExp(/^TB[A-D][0-9]{12}/)],
   },
   ups: {
-    patterns: [
-      new RegExp(
-        /\b(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|T\d{3} ?\d{4} ?\d{3})\b/i
-      ),
-    ],
-    tracking_url:
-      "http://wwwapps.ups.com/WebTracking/processInputRequest?TypeOfInquiryNumber=T&InquiryNumber1=",
+    patterns: [new RegExp(/\b(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|T\d{3} ?\d{4} ?\d{3})\b/i)],
+    tracking_url: "https://www.ups.com/mobile/track?trackingNumber="
   },
   usps: {
     patterns: [
@@ -37,14 +32,9 @@ const courier_info = {
       "http://www.dhl.com/content/g0/en/express/tracking.shtml?brand=DHL&AWB=",
   },
   fedex: {
-    patterns: [
-      new RegExp(
-        /\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3})?)\b/i
-      ),
-    ],
-    tracking_url:
-      "http://www.fedex.com/Tracking?language=english&cntry_code=us&tracknumbers=",
-  },
+    patterns: [new RegExp(/\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3}|\d{15})?)\b/i)],
+    tracking_url: "http://www.fedex.com/Tracking?language=english&cntry_code=us&tracknumbers="
+  }
 };
 
 const getCourier = (tr) =>

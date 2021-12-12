@@ -25,6 +25,9 @@
   ],
   "author": "Nir Adler",
   "license": "MIT",
+  "files": [
+    "index.js"
+  ],
   "bugs": {
     "url": "https://github.com/niradler/tracking-number-validation/issues"
   },
