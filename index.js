@@ -1,9 +1,12 @@
 "use strict";
 
 var courier_info = {
+  amazon: {
+    patterns: [new RegExp(/^TB[A-D][0-9]{12}/)]
+  },
   ups: {
     patterns: [new RegExp(/\b(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|T\d{3} ?\d{4} ?\d{3})\b/i)],
-    tracking_url: "http://wwwapps.ups.com/WebTracking/processInputRequest?TypeOfInquiryNumber=T&Inq" + "uiryNumber1="
+    tracking_url: "http://wwwapps.ups.com/WebTracking/processInputRequest?TypeOfInquiryNumber=T&InquiryNumber1="
   },
   usps: {
     patterns: [new RegExp(/\b((420 ?\d{5} ?)?(91|92|93|94|95|01|03|04|70|23|13)\d{2} ?\d{4} ?\d{4} ?\d{4} ?\d{4}( ?\d{2,6})?)\b/i), new RegExp(/\b((M|P[A-Z]?|D[C-Z]|LK|E[A-C]|V[A-Z]|R[A-Z]|CP|CJ|LC|LJ) ?\d{3} ?\d{3} ?\d{3} ?[A-Z]?[A-Z]?)\b/i), new RegExp(/\b(82 ?\d{3} ?\d{3} ?\d{2})\b/i)],
@@ -17,7 +20,6 @@ var courier_info = {
     patterns: [new RegExp(/\b(\d{4}[- ]?\d{4}[- ]?\d{2}|\d{3}[- ]?\d{8}|[A-Z]{3}\d{7})\b/i)],
     tracking_url: "http://www.dhl.com/content/g0/en/express/tracking.shtml?brand=DHL&AWB="
   },
-
   fedex: {
     patterns: [new RegExp(/\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3}|\d{15})?)\b/i)],
     tracking_url: "http://www.fedex.com/Tracking?language=english&cntry_code=us&tracknumbers="
@@ -41,7 +43,15 @@ var isCourier = function isCourier(tr, courier) {
 };
 
 var getTrackingUrl = function getTrackingUrl(tr, courier) {
-  return courier ? courier_info[courier.toLowerCase()] && courier_info[courier.toLowerCase()].tracking_url + tr : courier_info[getCourier(tr)[0]].tracking_url + tr;
+  var link = null;
+  if (courier) {
+    link = courier_info[courier.toLowerCase()].tracking_url + tr;
+  } else {
+    var c = getCourier(tr)[0];
+    if (c && courier_info[c].tracking_url) link = courier_info[c].tracking_url + tr;
+  }
+
+  return link;
 };
 
 var injectPatterns = function injectPatterns(courier, patt) {
@@ -58,7 +68,8 @@ var TNV = {
   isCourier: isCourier,
   getTrackingUrl: getTrackingUrl,
   injectPatterns: injectPatterns,
-  isValid: isValid
+  isValid: isValid,
+  couriers: courier_info
 };
 
 if (typeof exports === "undefined") {

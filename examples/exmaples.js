@@ -1,6 +1,6 @@
 const tnv = require("../index");
 
-let courier = tnv.getCourier("1Z2869Y60397722027");
+let courier = tnv.getCourier("TBA502887274000");
 console.log("getCourier:", courier);
 courier = tnv.getCourierOne("1Z2869Y60397722027");
 console.log("getCourierOne:", courier);
