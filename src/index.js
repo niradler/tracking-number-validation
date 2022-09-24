@@ -33,7 +33,7 @@ const courier_info = {
   },
   fedex: {
     patterns: [new RegExp(/\b(((96\d\d|6\d)\d{3} ?\d{4}|96\d{2}|\d{4}) ?\d{4} ?\d{4}( ?\d{3}|\d{15})?)\b/i)],
-    tracking_url: "http://www.fedex.com/Tracking?language=english&cntry_code=us&tracknumbers="
+    tracking_url: "https://www.fedex.com/fedextrack/?tracknumbers="
   }
 };
 
