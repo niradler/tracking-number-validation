@@ -47,9 +47,9 @@ describe('Tracking Number Validation', () => {
   });
 
   test('should validate new courier patterns', () => {
-    // Test LaserShip
+    // Test LaserShip (now handled by OnTrac)
     expect(isValid('1LS123456789012')).toBe(true);
-    expect(getCourier('1LS123456789012')).toContain('lasership');
+    expect(getCourier('1LS123456789012')).toContain('ontrac');
     
     // Test Canada Post
     expect(isValid('RP123456789CA')).toBe(true);

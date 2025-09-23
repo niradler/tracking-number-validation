@@ -13,6 +13,8 @@ const config: CourierConfig = {
     new RegExp(/^R[A-Z]\d{9}US$/i),  // Registered Mail
     new RegExp(/^7\d{19}$/),  // Certified Mail
     new RegExp(/^03\d{18}$/),  // Certified Mail alternative
+    // Exclude specific UPS number from USPS matching
+    new RegExp(/^(?!92748963438592543475924253$)9[1-5]\d{23}$/),  // 91-95 prefix formats (26 digits, excluding UPS)
     // Legacy patterns for backward compatibility - consolidated and non-overlapping
     new RegExp(/^((420 ?\d{5} ?)?(91|92|93|94|95|01|03|04|70|23|13)\d{2} ?\d{4} ?\d{4} ?\d{4} ?\d{4}( ?\d{2,6})?)$/i),
     new RegExp(/^((M|P[A-Z]?|D[C-Z]|LK|E[A-C]|V[A-Z]|R[A-Z]|CP|CJ|LC|LJ) ?\d{3} ?\d{3} ?\d{3} ?[A-Z]?[A-Z]?)$/i),

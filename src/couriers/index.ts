@@ -21,7 +21,7 @@ export const couriers: CourierModule[] = [
   canadaPost,
   australiaPost,
   ontrac,
-  lasership,
+  // lasership, // Removed - now handled by ontrac
   usps, // Move USPS to end to avoid overly broad matches
 ];
 
@@ -29,6 +29,8 @@ export const courierMap = new Map<string, CourierModule>();
 couriers.forEach(courier => {
   courierMap.set(courier.name, courier);
 });
+// Keep lasership in map for backward compatibility, but not in active courier list
+courierMap.set(lasership.name, lasership);
 
 export function identifyCourier(trackingNumber: string): ValidationResult | null {
   const cleaned = trackingNumber.trim().toUpperCase();

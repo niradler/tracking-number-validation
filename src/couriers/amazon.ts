@@ -7,9 +7,11 @@ const config: CourierConfig = {
     new RegExp(/^TBC\d{12}$/),  // Amazon Logistics TBC
     new RegExp(/^TBM\d{12}$/),  // Amazon Logistics TBM
     new RegExp(/^TB[A-D]\d{12}$/),  // Amazon Logistics general
+    new RegExp(/^AZ\d{26}$/),  // Amazon Logistics AMZL_US format
+    new RegExp(/^ZA\d{26}$/),  // Amazon Logistics AMZL_US format
   ],
   tracking_url: "https://track.amazon.com/tracking/",
-  test_numbers: ["TBA487064622000", "TBC000111222333"],
+  test_numbers: ["TBA487064622000", "TBC000111222333", "AZ12345678901234567890123456", "ZA12345678901234567890123456"],
   checksum: "none",
   notes: "Only works within Amazon ecosystem, requires authentication"
 };

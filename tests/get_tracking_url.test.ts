@@ -32,8 +32,8 @@ describe('getTrackingUrl', () => {
       },
       {
         trackingNumber: "1LS123456789012",
-        courier: CourierName.LASERSHIP,
-        expectedUrl: "https://www.lasership.com/track/1LS123456789012"
+        courier: CourierName.ONTRAC,
+        expectedUrl: "https://www.ontrac.com/tracking/?number=1LS123456789012"
       },
       {
         trackingNumber: "RP123456789CA",

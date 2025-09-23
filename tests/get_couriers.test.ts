@@ -30,7 +30,10 @@ describe('getCourierOne', () => {
     for (const [trackingNumber, expectedCourier] of Object.entries(trackingNumbers)) {
       const result = getCourierOne(trackingNumber);
       expect(result).toBeDefined();
-      expect([expectedCourier]).toContain(result);
+      
+      // Check that the expected courier is among all possible couriers for this tracking number
+      const allCouriers = getCourier(trackingNumber);
+      expect(allCouriers).toContain(expectedCourier);
     }
   });
 

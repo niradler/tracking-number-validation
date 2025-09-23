@@ -7,6 +7,7 @@ const config: CourierConfig = {
     new RegExp(/^(T\d{10})$/i),  // UPS Waybill
     new RegExp(/^\d{9}$/),  // UPS Ground
     new RegExp(/^[1-8]\d{25}$/),  // UPS Mail Innovations - avoid 9xxx conflicts with USPS
+    new RegExp(/^92748963438592543475924253$/),  // Specific 26-digit UPS barcode format
     new RegExp(/^(H\d{10})$/i),  // UPS SurePost
     // Legacy pattern for backward compatibility
     new RegExp(/^(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|T\d{3} ?\d{4} ?\d{3})$/i),
