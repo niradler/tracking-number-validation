@@ -1,1 +1,9 @@
-theme: jekyll-theme-minimal
+# GitHub Pages configuration
+# Use docs/ directory for GitHub Pages
+# The index.html in docs/ will be served as the main page
+
+# Optional: If you want to use Jekyll theme for other pages
+# theme: jekyll-theme-minimal
+
+# GitHub Pages will serve docs/index.html directly
+# No Jekyll processing needed for our HTML showcase
