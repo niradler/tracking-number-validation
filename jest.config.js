@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
@@ -16,8 +16,5 @@ export default {
     'lcov',
     'html'
   ],
-  moduleFileExtensions: ['ts', 'js', 'json'],
-  moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1'
-  }
+  moduleFileExtensions: ['ts', 'js', 'json']
 };

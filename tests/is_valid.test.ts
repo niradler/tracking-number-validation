@@ -1,5 +1,5 @@
-import { trackingNumbers } from "./tracking_numbers.js";
-import { isValid } from "../src/index.js";
+import { trackingNumbers } from "./tracking_numbers";
+const { isValid } = require("../src/index");
 
 describe('isValid', () => {
   test('should validate all tracking numbers', () => {

@@ -8,7 +8,7 @@ A modern TypeScript library for validating tracking numbers from multiple shippi
 - **Modern ESM**: ES modules with CommonJS compatibility
 - **Zero Dependencies**: Lightweight with no external dependencies
 - **Comprehensive Testing**: Full test coverage with Jest
-- **Multiple Carriers**: Support for 8+ shipping carriers
+- **Multiple Carriers**: Support for 11+ shipping carriers
 
 ## 📦 Supported Carriers
 
@@ -20,6 +20,9 @@ A modern TypeScript library for validating tracking numbers from multiple shippi
 - **Amazon** - Amazon Logistics
 - **LaserShip** - LaserShip Delivery
 - **Canada Post** - Canada Post Corporation
+- **China Post** - China Post Corporation
+- **Australia Post** - Australia Post Corporation
+- **Royal Mail** - Royal Mail Group
 
 ## 🛠 Installation
 
@@ -45,6 +48,12 @@ import {
   isValid, 
   isCourier, 
   getTrackingUrl,
+  getAllPossibleCouriers,
+  getValidCouriersOnly,
+  getAllTrackingUrlsForNumber,
+  getDetailedCourierInfo,
+  generateTrackingNumber,
+  generateMultipleTrackingNumbers,
   type CourierName 
 } from 'tracking-number-validation';
 
@@ -71,6 +80,26 @@ console.log(trackingUrl); // 'https://www.ups.com/track?trackingNumber=1Z9999W99
 // Auto-detect courier and get URL
 const autoUrl = getTrackingUrl('1Z9999W99999999999');
 console.log(autoUrl); // 'https://www.ups.com/track?trackingNumber=1Z9999W99999999999'
+
+// Get all possible couriers (including pattern matches that may not validate)
+const allPossible = getAllPossibleCouriers('1Z9999W99999999999');
+console.log(allPossible); // ['ups']
+
+// Get only validated couriers
+const validOnly = getValidCouriersOnly('1Z9999W99999999999');
+console.log(validOnly); // ['ups']
+
+// Get detailed validation info
+const detailedInfo = getDetailedCourierInfo('1Z9999W99999999999');
+console.log(detailedInfo); // [{ courier: 'ups', valid: true, tracking_url: '...' }]
+
+// Generate tracking numbers
+const generatedUPS = generateTrackingNumber('ups');
+console.log(generatedUPS); // '1Z12345E1512345676'
+
+// Generate multiple tracking numbers
+const multipleUSPS = generateMultipleTrackingNumbers('usps', 3);
+console.log(multipleUSPS); // ['9400100000000000000000', '9400100000000000000001', ...]
 ```
 
 ### CommonJS
@@ -79,7 +108,9 @@ console.log(autoUrl); // 'https://www.ups.com/track?trackingNumber=1Z9999W999999
 const { 
   getCourier, 
   isValid, 
-  getTrackingUrl 
+  getTrackingUrl,
+  generateTrackingNumber,
+  CourierName 
 } = require('tracking-number-validation');
 
 const courier = getCourier('9400100000000000000000');
@@ -155,6 +186,69 @@ injectPatterns('ups', /CUSTOM\d{10}/); // true
 isValid('CUSTOM1234567890'); // true (now matches UPS)
 ```
 
+### `getAllPossibleCouriers(trackingNumber: string): string[]`
+
+Returns all couriers that match the tracking number pattern (including those that may not validate).
+
+```typescript
+getAllPossibleCouriers('1Z9999W99999999999'); // ['ups']
+getAllPossibleCouriers('invalid'); // []
+```
+
+### `getValidCouriersOnly(trackingNumber: string): string[]`
+
+Returns only the couriers that both match the pattern and validate the tracking number.
+
+```typescript
+getValidCouriersOnly('1Z9999W99999999999'); // ['ups']
+getValidCouriersOnly('invalid'); // []
+```
+
+### `getAllTrackingUrlsForNumber(trackingNumber: string): object[]`
+
+Returns tracking URLs for all matching couriers with validation information.
+
+```typescript
+getAllTrackingUrlsForNumber('1Z9999W99999999999');
+// [{ courier: 'ups', url: 'https://...', valid: true }]
+```
+
+### `getDetailedCourierInfo(trackingNumber: string): ValidationResult[]`
+
+Returns comprehensive validation information for all matching couriers.
+
+```typescript
+getDetailedCourierInfo('1Z9999W99999999999');
+// [{ courier: 'ups', valid: true, tracking_url: 'https://...' }]
+```
+
+### `generateTrackingNumber(courier: CourierName): string`
+
+Generates a valid-format tracking number for the specified courier.
+
+```typescript
+generateTrackingNumber('ups'); // '1Z12345E1512345676'
+generateTrackingNumber('fedex'); // '999999999999'
+```
+
+### `generateMultipleTrackingNumbers(courier: CourierName, count: number): string[]`
+
+Generates multiple tracking numbers for the specified courier.
+
+```typescript
+generateMultipleTrackingNumbers('usps', 3);
+// ['9400100000000000000000', '9400100000000000000001', '9400100000000000000002']
+```
+
+### `generateTrackingNumberWithValidation(config: GeneratorConfig): string`
+
+Generates a tracking number and validates it against the library's own validation rules.
+
+```typescript
+generateTrackingNumberWithValidation({ courier: 'ups' });
+// '1Z12345E1512345676' (guaranteed to pass isValid())
+```
+
 ## 📝 Tracking Number Examples
 
 ### UPS
@@ -193,6 +287,57 @@ isValid('CUSTOM1234567890'); // true (now matches UPS)
 - `RP123456789CA`
 - `1234567890123`
 
+### China Post
+- `EE123456789CN`
+- `RR123456789CN`
+- `CP123456789CN`
+
+### Australia Post
+- `AP123456789AU`
+- `123456789012`
+- `TM123456789012345`
+
+### Royal Mail
+- `GB123456789GB`
+- `RR123456789GB`
+
+## 🎲 Tracking Number Generation
+
+Generate valid tracking numbers for testing purposes:
+
+```typescript
+import { generateTrackingNumber, generateMultipleTrackingNumbers, CourierName } from 'tracking-number-validation';
+
+// Generate single tracking numbers
+const upsNumber = generateTrackingNumber(CourierName.UPS);
+const fedexNumber = generateTrackingNumber(CourierName.FEDEX);
+const uspsNumber = generateTrackingNumber(CourierName.USPS);
+
+// Generate multiple tracking numbers
+const multipleNumbers = generateMultipleTrackingNumbers(CourierName.UPS, 5);
+console.log(multipleNumbers); // ['1Z...', '1Z...', '1Z...', '1Z...', '1Z...']
+
+// Generate with specific formats (where supported)
+const fedexGround = generateTrackingNumber({ 
+  courier: CourierName.FEDEX, 
+  format: 'ground' 
+});
+
+// Available formats per courier
+import { courierFormats } from 'tracking-number-validation';
+console.log(courierFormats[CourierName.FEDEX]); // ['express', 'ground', 'smartpost']
+console.log(courierFormats[CourierName.USPS]); // ['tracking', 's10', 'certified']
+```
+
+### Supported Generation Formats
+
+- **FedEx**: `express` (12 digits), `ground` (15 digits), `smartpost` (22 digits)
+- **USPS**: `tracking` (22 digits), `s10` (13 chars), `certified` (20 digits)
+- **DHL**: `express` (10 digits), `ecommerce` (10 chars), `global` (18 chars)
+- **Australia Post**: `s10`, `domestic`, `tm`
+- **Canada Post**: `s10`, `domestic`
+- **UPS, Amazon, OnTrac, LaserShip, China Post, Royal Mail**: Default formats only
+
 ## 🆕 What's New in v3.0.0
 
 ### ✨ Major Updates
@@ -200,7 +345,9 @@ isValid('CUSTOM1234567890'); // true (now matches UPS)
 - **Modern ESM support** with CommonJS compatibility
 - **Updated UPS tracking URLs** (removed deprecated `/mobile/` path)
 - **Enhanced USPS support** for barcodes starting with 95
-- **New carriers added**: LaserShip and Canada Post
+- **New carriers added**: LaserShip, Canada Post, China Post, Australia Post, and Royal Mail
+- **Tracking number generation**: Generate valid tracking numbers for testing
+- **Advanced validation functions**: Get detailed courier information and validation results
 
 ### 🔧 Breaking Changes
 - Minimum Node.js version: 16+
@@ -259,8 +406,11 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## 📊 Version History
 
 ### v3.0.0 (Latest)
+
 - Complete TypeScript rewrite
-- Added LaserShip and Canada Post support
+- Added 5 new carriers: LaserShip, Canada Post, China Post, Australia Post, and Royal Mail
+- Tracking number generation capabilities
+- Advanced validation and courier detection functions
 - Fixed UPS tracking URLs
 - Enhanced USPS barcode support (95 prefix)
 - Modern ESM build system
@@ -268,7 +418,3 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ### v2.0.2
 - Legacy JavaScript version
 - Basic courier support
-
----
-
-Made with ❤️ by [Nir Adler](https://github.com/niradler)

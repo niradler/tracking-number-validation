@@ -1,5 +1,5 @@
-import { trackingNumbers } from "./tracking_numbers.js";
-import { getCourier, getCourierOne } from "../src/index.js";
+import { trackingNumbers } from "./tracking_numbers";
+const { getCourier, getCourierOne } = require("../src/index");
 
 describe('getCourier', () => {
   test('should return correct couriers for tracking numbers', () => {

@@ -1,9 +1,9 @@
-import { getTrackingUrl } from "../src/index.js";
+const { getTrackingUrl, CourierName } = require("../src/index");
 
 describe('getTrackingUrl', () => {
   test('should return correct UPS tracking URL without /mobile/', () => {
     const trackingNumber = "1Z9999W99999999999";
-    const result = getTrackingUrl(trackingNumber, 'ups');
+    const result = getTrackingUrl(trackingNumber, CourierName.UPS);
     expect(result).toBe("https://www.ups.com/track?trackingNumber=1Z9999W99999999999");
     expect(result).not.toContain('/mobile/');
   });
@@ -12,32 +12,32 @@ describe('getTrackingUrl', () => {
     const testCases = [
       {
         trackingNumber: "1Z9999W99999999999",
-        courier: 'ups' as const,
+        courier: CourierName.UPS,
         expectedUrl: "https://www.ups.com/track?trackingNumber=1Z9999W99999999999"
       },
       {
         trackingNumber: "9400100000000000000000",
-        courier: 'usps' as const,
+        courier: CourierName.USPS,
         expectedUrl: "https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=9400100000000000000000"
       },
       {
         trackingNumber: "999999999999",
-        courier: 'fedex' as const,
+        courier: CourierName.FEDEX,
         expectedUrl: "https://www.fedex.com/fedextrack/?tracknumbers=999999999999"
       },
       {
         trackingNumber: "TBA502887274000",
-        courier: 'amazon' as const,
+        courier: CourierName.AMAZON,
         expectedUrl: "https://track.amazon.com/tracking/TBA502887274000"
       },
       {
         trackingNumber: "1LS123456789012",
-        courier: 'lasership' as const,
+        courier: CourierName.LASERSHIP,
         expectedUrl: "https://www.lasership.com/track/1LS123456789012"
       },
       {
         trackingNumber: "RP123456789CA",
-        courier: 'canada_post' as const,
+        courier: CourierName.CANADA_POST,
         expectedUrl: "https://www.canadapost-postescanada.ca/track-reperage/en#/details/RP123456789CA"
       }
     ];
