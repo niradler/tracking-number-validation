@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Number Validation - Interactive Demo</title>
+    <meta name="description" content="A modern TypeScript library for validating tracking numbers from multiple shipping carriers. Test and explore all features in this interactive demo.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .code-block {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .tracking-input {
+            transition: all 0.3s ease;
+        }
+        .tracking-input:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .courier-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem 0.25rem 0.25rem 0;
+        }
+        .result-container {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .status-valid {
+            color: #059669;
+            background-color: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+        .status-invalid {
+            color: #dc2626;
+            background-color: #fef2f2;
+            border-color: #fecaca;
+        }
+        .demo-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header -->
+    <header class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">
+                    <i class="fas fa-shipping-fast mr-3"></i>
+                    Tracking Number Validation
+                </h1>
+                <p class="text-xl mb-8 opacity-90">
+                    A modern TypeScript library for validating tracking numbers from 11+ shipping carriers
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                        <i class="fab fa-js-square mr-2"></i>TypeScript First
+                    </span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                        <i class="fas fa-feather-alt mr-2"></i>Zero Dependencies
+                    </span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                        <i class="fas fa-truck mr-2"></i>11+ Carriers
+                    </span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                        <i class="fas fa-vial mr-2"></i>Full Test Coverage
+                    </span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://github.com/niradler/tracking-number-validation" 
+                       class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        <i class="fab fa-github mr-2"></i>View on GitHub
+                    </a>
+                    <a href="https://www.npmjs.com/package/tracking-number-validation" 
+                       class="bg-purple-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-900 transition-colors">
+                        <i class="fab fa-npm mr-2"></i>NPM Package
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Start Section -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="demo-section">
+            <h2 class="text-3xl font-bold mb-6 text-center">
+                <i class="fas fa-play-circle mr-3 text-purple-600"></i>
+                Quick Start
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Installation</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 code-block">
+                        <pre><code class="language-bash"># Using pnpm (recommended)
+pnpm add tracking-number-validation
+
+# Using npm
+npm install tracking-number-validation
+
+# Using yarn
+yarn add tracking-number-validation</code></pre>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Basic Usage</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 code-block">
+                        <pre><code class="language-javascript">import { getCourier, isValid, getTrackingUrl } from 'tracking-number-validation';
+
+// Identify courier
+const courier = getCourier('1Z9999W99999999999');
+console.log(courier); // ['ups']
+
+// Validate tracking number
+const valid = isValid('1Z9999W99999999999');
+console.log(valid); // true
+
+// Get tracking URL
+const url = getTrackingUrl('1Z9999W99999999999');
+console.log(url); // UPS tracking URL</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="demo-section">
+            <h2 class="text-3xl font-bold mb-8 text-center">
+                <i class="fas fa-laptop-code mr-3 text-purple-600"></i>
+                Interactive Demo
+            </h2>
+            
+            <!-- Main Demo Area -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Test Tracking Numbers</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="trackingInput" class="block text-sm font-medium text-gray-700 mb-2">
+                                Enter a tracking number:
+                            </label>
+                            <input 
+                                type="text" 
+                                id="trackingInput" 
+                                class="tracking-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="e.g., 1Z9999W99999999999"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label for="courierSelect" class="block text-sm font-medium text-gray-700 mb-2">
+                                Optional: Specify courier:
+                            </label>
+                            <select 
+                                id="courierSelect" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            >
+                                <option value="">Auto-detect</option>
+                                <option value="ups">UPS</option>
+                                <option value="fedex">FedEx</option>
+                                <option value="usps">USPS</option>
+                                <option value="dhl">DHL</option>
+                                <option value="amazon">Amazon</option>
+                                <option value="ontrac">OnTrac</option>
+                                <option value="canada-post">Canada Post</option>
+                                <option value="china-post">China Post</option>
+                                <option value="australia-post">Australia Post</option>
+                                <option value="royal-mail">Royal Mail</option>
+                            </select>
+                        </div>
+                        
+                        <button 
+                            id="validateBtn" 
+                            class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                        >
+                            <i class="fas fa-search mr-2"></i>
+                            Validate Tracking Number
+                        </button>
+                    </div>
+                    
+                    <!-- Sample Tracking Numbers -->
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold mb-3">Try these sample tracking numbers:</h4>
+                        <div class="grid grid-cols-1 gap-2">
+                            <button class="sample-btn text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tracking="1Z9999W99999999999">
+                                <span class="font-mono text-sm">1Z9999W99999999999</span> 
+                                <span class="courier-badge ml-2">UPS</span>
+                            </button>
+                            <button class="sample-btn text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tracking="999999999999">
+                                <span class="font-mono text-sm">999999999999</span> 
+                                <span class="courier-badge ml-2">FedEx</span>
+                            </button>
+                            <button class="sample-btn text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tracking="9400100000000000000000">
+                                <span class="font-mono text-sm">9400100000000000000000</span> 
+                                <span class="courier-badge ml-2">USPS</span>
+                            </button>
+                            <button class="sample-btn text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tracking="1251234567">
+                                <span class="font-mono text-sm">1251234567</span> 
+                                <span class="courier-badge ml-2">DHL</span>
+                            </button>
+                            <button class="sample-btn text-left p-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tracking="TBA502887274000">
+                                <span class="font-mono text-sm">TBA502887274000</span> 
+                                <span class="courier-badge ml-2">Amazon</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Results</h3>
+                    <div id="resultsContainer" class="result-container">
+                        <p class="text-gray-500 italic">Enter a tracking number to see validation results...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Showcase -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="demo-section">
+            <h2 class="text-3xl font-bold mb-8 text-center">
+                <i class="fas fa-cogs mr-3 text-purple-600"></i>
+                Feature Showcase
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Generate Tracking Numbers -->
+                <div class="card-hover bg-white p-6 rounded-lg border">
+                    <h3 class="text-xl font-semibold mb-4">
+                        <i class="fas fa-random mr-2 text-purple-600"></i>
+                        Generate Tracking Numbers
+                    </h3>
+                    <p class="text-gray-600 mb-4">Generate valid tracking numbers for testing purposes.</p>
+                    <div class="space-y-3">
+                        <select id="generateCourier" class="w-full px-3 py-2 border border-gray-300 rounded">
+                            <option value="ups">UPS</option>
+                            <option value="fedex">FedEx</option>
+                            <option value="usps">USPS</option>
+                            <option value="dhl">DHL</option>
+                            <option value="amazon">Amazon</option>
+                        </select>
+                        <button id="generateBtn" class="w-full bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition-colors">
+                            Generate
+                        </button>
+                        <div id="generatedResult" class="font-mono text-sm bg-gray-100 p-2 rounded min-h-[2rem]"></div>
+                    </div>
+                </div>
+
+                <!-- Bulk Validation -->
+                <div class="card-hover bg-white p-6 rounded-lg border">
+                    <h3 class="text-xl font-semibold mb-4">
+                        <i class="fas fa-list mr-2 text-purple-600"></i>
+                        Bulk Validation
+                    </h3>
+                    <p class="text-gray-600 mb-4">Validate multiple tracking numbers at once.</p>
+                    <div class="space-y-3">
+                        <textarea 
+                            id="bulkInput" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded h-20 text-sm"
+                            placeholder="Enter tracking numbers, one per line..."
+                        ></textarea>
+                        <button id="bulkValidateBtn" class="w-full bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition-colors">
+                            Validate All
+                        </button>
+                        <div id="bulkResults" class="text-sm max-h-32 overflow-y-auto"></div>
+                    </div>
+                </div>
+
+                <!-- Pattern Injection -->
+                <div class="card-hover bg-white p-6 rounded-lg border">
+                    <h3 class="text-xl font-semibold mb-4">
+                        <i class="fas fa-syringe mr-2 text-purple-600"></i>
+                        Pattern Injection
+                    </h3>
+                    <p class="text-gray-600 mb-4">Add custom patterns to existing couriers.</p>
+                    <div class="space-y-3">
+                        <select id="injectCourier" class="w-full px-3 py-2 border border-gray-300 rounded">
+                            <option value="ups">UPS</option>
+                            <option value="fedex">FedEx</option>
+                            <option value="usps">USPS</option>
+                            <option value="dhl">DHL</option>
+                        </select>
+                        <input 
+                            id="customPattern" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                            placeholder="e.g., CUSTOM\\d{10}"
+                        >
+                        <button id="injectBtn" class="w-full bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition-colors">
+                            Inject Pattern
+                        </button>
+                        <div id="injectResult" class="text-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Carriers -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="demo-section">
+            <h2 class="text-3xl font-bold mb-8 text-center">
+                <i class="fas fa-truck mr-3 text-purple-600"></i>
+                Supported Carriers
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">📦</div>
+                    <h3 class="text-xl font-semibold mb-2">UPS</h3>
+                    <p class="text-gray-600 text-sm">United Parcel Service</p>
+                    <p class="text-xs text-gray-500 mt-2">1Z tracking numbers</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🚚</div>
+                    <h3 class="text-xl font-semibold mb-2">FedEx</h3>
+                    <p class="text-gray-600 text-sm">Federal Express</p>
+                    <p class="text-xs text-gray-500 mt-2">12-22 digit formats</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">📮</div>
+                    <h3 class="text-xl font-semibold mb-2">USPS</h3>
+                    <p class="text-gray-600 text-sm">United States Postal Service</p>
+                    <p class="text-xs text-gray-500 mt-2">Various formats including 95xx</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">✈️</div>
+                    <h3 class="text-xl font-semibold mb-2">DHL</h3>
+                    <p class="text-gray-600 text-sm">DHL Express</p>
+                    <p class="text-xs text-gray-500 mt-2">Express & eCommerce</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-semibold mb-2">Amazon</h3>
+                    <p class="text-gray-600 text-sm">Amazon Logistics</p>
+                    <p class="text-xs text-gray-500 mt-2">TBA, TBC, TBM, TBD formats</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🚛</div>
+                    <h3 class="text-xl font-semibold mb-2">OnTrac</h3>
+                    <p class="text-gray-600 text-sm">OnTrac Shipping</p>
+                    <p class="text-xs text-gray-500 mt-2">C/D prefixes, LaserShip merged</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🇨🇦</div>
+                    <h3 class="text-xl font-semibold mb-2">Canada Post</h3>
+                    <p class="text-gray-600 text-sm">Canada Post Corporation</p>
+                    <p class="text-xs text-gray-500 mt-2">13-16 digit formats</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🇨🇳</div>
+                    <h3 class="text-xl font-semibold mb-2">China Post</h3>
+                    <p class="text-gray-600 text-sm">China Post Corporation</p>
+                    <p class="text-xs text-gray-500 mt-2">CN suffix formats</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🇦🇺</div>
+                    <h3 class="text-xl font-semibold mb-2">Australia Post</h3>
+                    <p class="text-gray-600 text-sm">Australia Post Corporation</p>
+                    <p class="text-xs text-gray-500 mt-2">AU suffix & TM formats</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🇬🇧</div>
+                    <h3 class="text-xl font-semibold mb-2">Royal Mail</h3>
+                    <p class="text-gray-600 text-sm">Royal Mail Group</p>
+                    <p class="text-xs text-gray-500 mt-2">GB suffix formats</p>
+                </div>
+                
+                <div class="card-hover bg-white p-6 rounded-lg border text-center">
+                    <div class="text-4xl mb-4">🔧</div>
+                    <h3 class="text-xl font-semibold mb-2">Extensible</h3>
+                    <p class="text-gray-600 text-sm">Add Custom Patterns</p>
+                    <p class="text-xs text-gray-500 mt-2">Inject your own regex patterns</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="demo-section">
+            <h2 class="text-3xl font-bold mb-8 text-center">
+                <i class="fas fa-code mr-3 text-purple-600"></i>
+                Code Examples
+            </h2>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">TypeScript/ES Modules</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 code-block">
+                        <pre><code class="language-typescript">import { 
+  getCourier, 
+  isValid, 
+  getTrackingUrl,
+  generateTrackingNumber,
+  getDetailedCourierInfo 
+} from 'tracking-number-validation';
+
+// Basic validation
+const trackingNumber = '1Z9999W99999999999';
+const couriers = getCourier(trackingNumber);
+console.log(couriers); // ['ups']
+
+// Check validity
+const isValidNumber = isValid(trackingNumber);
+console.log(isValidNumber); // true
+
+// Get tracking URL
+const url = getTrackingUrl(trackingNumber);
+console.log(url); // UPS tracking URL
+
+// Generate test tracking number
+const generated = generateTrackingNumber('ups');
+console.log(generated); // Valid UPS tracking number
+
+// Get detailed information
+const details = getDetailedCourierInfo(trackingNumber);
+console.log(details); 
+// [{ courier: 'ups', valid: true, tracking_url: '...' }]</code></pre>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">CommonJS</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 code-block">
+                        <pre><code class="language-javascript">const { 
+  getCourier, 
+  isValid, 
+  getTrackingUrl,
+  generateTrackingNumber 
+} = require('tracking-number-validation');
+
+// Validate tracking number
+const trackingNumber = '9400100000000000000000';
+const courier = getCourier(trackingNumber);
+console.log(courier); // ['usps']
+
+// Check if specific courier
+const isUSPS = require('tracking-number-validation')
+  .isCourier(trackingNumber, 'usps');
+console.log(isUSPS); // true
+
+// Generate multiple numbers
+const multiple = require('tracking-number-validation')
+  .generateMultipleTrackingNumbers('fedex', 3);
+console.log(multiple); // Array of FedEx tracking numbers
+
+// Inject custom pattern
+const success = require('tracking-number-validation')
+  .injectPatterns('ups', /CUSTOM\\d{10}/);
+console.log(success); // true</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold mb-4">Ready to Get Started?</h3>
+            <p class="text-lg mb-8 opacity-90">Install the package and start validating tracking numbers today!</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <a href="https://github.com/niradler/tracking-number-validation" 
+                   class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    <i class="fab fa-github mr-2"></i>GitHub Repository
+                </a>
+                <a href="https://www.npmjs.com/package/tracking-number-validation" 
+                   class="bg-purple-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-900 transition-colors">
+                    <i class="fab fa-npm mr-2"></i>NPM Package
+                </a>
+            </div>
+            
+            <div class="text-sm opacity-75">
+                <p>&copy; 2024 Tracking Number Validation. Made with ❤️ by <a href="https://github.com/niradler" class="underline">Nir Adler</a></p>
+                <p class="mt-2">MIT License • TypeScript • Zero Dependencies</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load the tracking validation library -->
+    <script src="../dist/index.js"></script>
+    
+    <!-- Custom JavaScript for interactivity -->
+    <script>
+        // Sample tracking numbers for different carriers
+        const sampleTrackingNumbers = {
+            ups: ['1Z9999W99999999999', '1Z12345E1512345676', 'T9999999999'],
+            fedex: ['999999999999', '999999999999999', '61299995669352455464'],
+            usps: ['9400100000000000000000', '9205500000000000000000', 'EC000000000US'],
+            dhl: ['1251234567', '3318810025', 'GM2951173225174494'],
+            amazon: ['TBA502887274000', 'TBA487064622000', 'TBC000111222333'],
+            ontrac: ['C10999911320231', 'D10902001187180', '1LS000111222333']
+        };
+
+        // Initialize the demo
+        document.addEventListener('DOMContentLoaded', function() {
+            const trackingInput = document.getElementById('trackingInput');
+            const courierSelect = document.getElementById('courierSelect');
+            const validateBtn = document.getElementById('validateBtn');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const sampleBtns = document.querySelectorAll('.sample-btn');
+
+            // Sample tracking number buttons
+            sampleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const trackingNumber = this.dataset.tracking;
+                    trackingInput.value = trackingNumber;
+                    courierSelect.value = '';
+                    validateTrackingNumber();
+                });
+            });
+
+            // Validate button
+            validateBtn.addEventListener('click', validateTrackingNumber);
+
+            // Enter key validation
+            trackingInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validateTrackingNumber();
+                }
+            });
+
+            function validateTrackingNumber() {
+                const trackingNumber = trackingInput.value.trim();
+                const specifiedCourier = courierSelect.value;
+
+                if (!trackingNumber) {
+                    resultsContainer.innerHTML = '<p class="text-red-500">Please enter a tracking number.</p>';
+                    return;
+                }
+
+                try {
+                    // Use the global TNV object
+                    const result = {
+                        trackingNumber: trackingNumber,
+                        specifiedCourier: specifiedCourier,
+                        isValid: TNV.isValid(trackingNumber),
+                        allCouriers: TNV.getCourier(trackingNumber),
+                        validCouriers: TNV.getValidCouriersOnly ? TNV.getValidCouriersOnly(trackingNumber) : [],
+                        trackingUrl: TNV.getTrackingUrl(trackingNumber, specifiedCourier || undefined),
+                        detailedInfo: TNV.getDetailedCourierInfo ? TNV.getDetailedCourierInfo(trackingNumber) : []
+                    };
+
+                    displayResults(result);
+                } catch (error) {
+                    resultsContainer.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+                }
+            }
+
+            function displayResults(result) {
+                const statusClass = result.isValid ? 'status-valid' : 'status-invalid';
+                const statusIcon = result.isValid ? 'fas fa-check-circle' : 'fas fa-times-circle';
+                const statusText = result.isValid ? 'Valid' : 'Invalid';
+
+                let html = `
+                    <div class="space-y-4">
+                        <div class="flex items-center mb-4">
+                            <i class="${statusIcon} mr-2"></i>
+                            <span class="font-semibold">Status: </span>
+                            <span class="px-3 py-1 rounded-full text-sm font-medium ml-2 ${statusClass}">
+                                ${statusText}
+                            </span>
+                        </div>
+                        
+                        <div>
+                            <span class="font-semibold">Tracking Number: </span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">${result.trackingNumber}</code>
+                        </div>
+                `;
+
+                if (result.allCouriers.length > 0) {
+                    html += `
+                        <div>
+                            <span class="font-semibold">Detected Couriers: </span>
+                            <div class="mt-2">
+                                ${result.allCouriers.map(courier => `<span class="courier-badge">${courier.toUpperCase()}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (result.validCouriers.length > 0 && result.validCouriers.length !== result.allCouriers.length) {
+                    html += `
+                        <div>
+                            <span class="font-semibold">Valid Couriers: </span>
+                            <div class="mt-2">
+                                ${result.validCouriers.map(courier => `<span class="courier-badge">${courier.toUpperCase()}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (result.trackingUrl) {
+                    html += `
+                        <div>
+                            <span class="font-semibold">Tracking URL: </span>
+                            <div class="mt-1">
+                                <a href="${result.trackingUrl}" target="_blank" class="text-purple-600 hover:text-purple-800 underline break-all">
+                                    ${result.trackingUrl}
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (result.detailedInfo.length > 0) {
+                    html += `
+                        <div>
+                            <span class="font-semibold">Detailed Information: </span>
+                            <div class="mt-2 bg-gray-50 p-3 rounded text-sm">
+                                <pre class="whitespace-pre-wrap">${JSON.stringify(result.detailedInfo, null, 2)}</pre>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += '</div>';
+                resultsContainer.innerHTML = html;
+            }
+
+            // Generate tracking number feature
+            const generateBtn = document.getElementById('generateBtn');
+            const generateCourier = document.getElementById('generateCourier');
+            const generatedResult = document.getElementById('generatedResult');
+
+            generateBtn.addEventListener('click', function() {
+                try {
+                    const courier = generateCourier.value;
+                    if (TNV.generateTrackingNumber) {
+                        const generated = TNV.generateTrackingNumber(courier);
+                        generatedResult.textContent = generated;
+                        generatedResult.className = 'font-mono text-sm bg-green-100 p-2 rounded border border-green-300';
+                    } else {
+                        // Fallback - generate a sample based on courier
+                        const samples = sampleTrackingNumbers[courier];
+                        if (samples) {
+                            const randomSample = samples[Math.floor(Math.random() * samples.length)];
+                            generatedResult.textContent = randomSample + ' (sample)';
+                            generatedResult.className = 'font-mono text-sm bg-blue-100 p-2 rounded border border-blue-300';
+                        }
+                    }
+                } catch (error) {
+                    generatedResult.textContent = 'Error generating tracking number';
+                    generatedResult.className = 'font-mono text-sm bg-red-100 p-2 rounded border border-red-300';
+                }
+            });
+
+            // Bulk validation feature
+            const bulkValidateBtn = document.getElementById('bulkValidateBtn');
+            const bulkInput = document.getElementById('bulkInput');
+            const bulkResults = document.getElementById('bulkResults');
+
+            bulkValidateBtn.addEventListener('click', function() {
+                const trackingNumbers = bulkInput.value.split('\n').filter(line => line.trim());
+                if (trackingNumbers.length === 0) {
+                    bulkResults.innerHTML = '<p class="text-red-500">Please enter tracking numbers.</p>';
+                    return;
+                }
+
+                let html = '<div class="space-y-2">';
+                trackingNumbers.forEach(trackingNumber => {
+                    trackingNumber = trackingNumber.trim();
+                    if (trackingNumber) {
+                        const isValid = TNV.isValid(trackingNumber);
+                        const couriers = TNV.getCourier(trackingNumber);
+                        const statusClass = isValid ? 'text-green-600' : 'text-red-600';
+                        const statusIcon = isValid ? 'fas fa-check' : 'fas fa-times';
+                        
+                        html += `
+                            <div class="flex items-center justify-between p-2 bg-white rounded border">
+                                <span class="font-mono text-xs">${trackingNumber}</span>
+                                <div class="flex items-center space-x-2">
+                                    ${couriers.length > 0 ? `<span class="text-xs text-gray-600">${couriers[0].toUpperCase()}</span>` : ''}
+                                    <i class="${statusIcon} ${statusClass}"></i>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                html += '</div>';
+                bulkResults.innerHTML = html;
+            });
+
+            // Pattern injection feature
+            const injectBtn = document.getElementById('injectBtn');
+            const injectCourier = document.getElementById('injectCourier');
+            const customPattern = document.getElementById('customPattern');
+            const injectResult = document.getElementById('injectResult');
+
+            injectBtn.addEventListener('click', function() {
+                const courier = injectCourier.value;
+                const pattern = customPattern.value.trim();
+                
+                if (!pattern) {
+                    injectResult.innerHTML = '<p class="text-red-500">Please enter a pattern.</p>';
+                    return;
+                }
+
+                try {
+                    if (TNV.injectPatterns) {
+                        const success = TNV.injectPatterns(courier, pattern);
+                        if (success) {
+                            injectResult.innerHTML = `<p class="text-green-600">✓ Pattern successfully injected into ${courier.toUpperCase()}</p>`;
+                        } else {
+                            injectResult.innerHTML = `<p class="text-red-500">✗ Failed to inject pattern</p>`;
+                        }
+                    } else {
+                        injectResult.innerHTML = '<p class="text-yellow-600">Pattern injection not available in this version</p>';
+                    }
+                } catch (error) {
+                    injectResult.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+                }
+            });
+
+            // Add sample tracking numbers to bulk input
+            const sampleBulkNumbers = [
+                '1Z9999W99999999999',
+                '999999999999',
+                '9400100000000000000000',
+                '1251234567',
+                'TBA502887274000',
+                'invalid-tracking-123'
+            ];
+            
+            // Pre-populate bulk input with sample data
+            bulkInput.value = sampleBulkNumbers.join('\n');
+        });
+    </script>
+</body>
+</html>
