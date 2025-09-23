@@ -1,9 +1,6 @@
 # GitHub Pages configuration
-# Use docs/ directory for GitHub Pages
-# The index.html in docs/ will be served as the main page
+# Disable Jekyll processing by using .nojekyll file
+# This ensures our HTML files are served directly without Jekyll processing
 
-# Optional: If you want to use Jekyll theme for other pages
-# theme: jekyll-theme-minimal
-
-# GitHub Pages will serve docs/index.html directly
-# No Jekyll processing needed for our HTML showcase
+# The docs/index.html will be served as the main page
+# All files in docs/ will be served as static files
