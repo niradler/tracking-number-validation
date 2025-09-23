@@ -4,12 +4,12 @@ import { validateChecksum } from './utils';
 const config: CourierConfig = {
   patterns: [
     new RegExp(/^[A-Z]{2}\d{9}AU$/i),  // S10 International
-    new RegExp(/^TM[A-Z0-9]{16,20}$/i),  // Domestic letter tracking
+    new RegExp(/^TM[A-Z0-9]{21,25}$/i),  // Domestic letter tracking  
     new RegExp(/^\d{12}$/),  // Standard parcel
     new RegExp(/^[A-Z]{2}\d{8}[A-Z]{2}\d{7}$/i),  // Alternative format
   ],
   tracking_url: "https://auspost.com.au/mypost/track/#/details/",
-  test_numbers: ["EE123456789AU", "TM1234567890123456"],
+  test_numbers: ["EE123456789AU", "TMABC12312345678900405092"],
   checksum: "mod11",
   notes: "TM-prefix for domestic letters with tracking"
 };
@@ -17,14 +17,26 @@ const config: CourierConfig = {
 function validate(trackingNumber: string): boolean {
   const cleaned = trackingNumber.trim().toUpperCase();
   
-  for (const pattern of config.patterns) {
-    if (pattern.test(cleaned)) {
-      if (config.checksum && config.checksum !== 'none') {
-        return validateChecksum(cleaned, config.checksum);
-      }
-      return true;
-    }
+  // S10 International format with mod11 checksum
+  if (/^[A-Z]{2}\d{9}AU$/i.test(cleaned)) {
+    return validateChecksum(cleaned, 'mod11');
   }
+  
+  // TM format - no checksum validation
+  if (/^TM[A-Z0-9]{21,25}$/i.test(cleaned)) {
+    return true;
+  }
+  
+  // Standard parcel - no checksum
+  if (/^\d{12}$/.test(cleaned)) {
+    return true;
+  }
+  
+  // Alternative format - no checksum
+  if (/^[A-Z]{2}\d{8}[A-Z]{2}\d{7}$/i.test(cleaned)) {
+    return true;
+  }
+  
   return false;
 }
 
